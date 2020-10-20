@@ -1,0 +1,14 @@
+{% extends 'main/main.html' %}
+{% block content %}
+<div class="content-section mb-4 mt-4">
+    <h3 style="text-align: center; color:var(--indigo);">{{data.category}}</h3>
+    <p style="text-align: center; color:var(--indigo);">Alcahool percentage: {{data.percentage}}%</p>
+    <div class="section-center">
+        {{data.bio|safe}}     
+    </div>
+    <p style="text-align: center;">
+    <a class="btn btn-primary w-50" href="{% url 'index'  %}">Go Back</a>
+    </p>
+
+</div>
+{% endblock content %}

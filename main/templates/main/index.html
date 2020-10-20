@@ -1,0 +1,94 @@
+{% extends 'main/main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row section">
+  <h3 style="text-align: center; color:var(--indigo)" class="display-4 mb-4">WISE DRINKER</h3>
+
+  <div class="col-xl-6 col-md-6 mb-4">
+    <div class="card border-left-danger shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Status:</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{status}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">BAC (dl/mg):</div>
+            {% if request.session.drunk_level >= 0 %}
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{request.session.drunk_level|truncatechars:10}}</div>
+            {% else %}
+            <div class="h5 mb-0 font-weight-bold text-gray-800">normal ~ 0</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Time since first drink:</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{request.session.time}} hours</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reset-buttons col-xl-12 col-md-12 mb-4">
+      <a class="reset-button" style="color:var(--grey); text-decoration:none;"  href="{% url 'reset-bac' %}">Reset Bac</a>
+      <a class="reset-button" style="color:var(--grey); text-decoration:none;" href="{% url 'redo-values' %}">Reset credentials</a>
+      <a class="reset-button" style="color:var(--grey); text-decoration:none;"  href="{% url 'reset-time-last-drink'%}">Reset Time</a>
+    </div>
+
+<h3 style="text-align: center; color:var(--indigo)" class="mb-4">CHOSE WHAT YOU DRANK!</h3>
+<!-- Handles logic for drinks and drink adding -->
+  {% for drink in drinks %}
+  <div class=" col-md-4 mb-4 col-md-offset-2 box">
+    <div class="card">
+      <a href="{% url 'drink-info' drink.id %}">
+        <img class="card-img-top" src="{{drink.image.url}}" alt="Card image cap">
+      </a>
+      <div class="card-body">
+        <h5 class="card-title"><a style="color:var(--indigo); text-decoration:none;" href="{% url 'drink-info' drink.id %}">{{drink.category}}</a></h5>
+        <small>Alcahool percentage:</small>
+        <p class="card-text">{{drink.percentage}} %</p>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal-{{drink.id}}">Add Drink</button>
+      </div>
+    </div>
+  </div>
+  <div id="myModal-{{drink.id}}" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">How much {{drink.category}} did you drink?</h4>
+        </div>
+        <div class="modal-body mx-3">
+            <form method="POST" action="{% url 'add-drink' drink.id %}">
+              {% csrf_token %}
+              <label>In {{request.session.measurement}}:</label>
+              {{form.size|as_crispy_field}}
+              <div class="modal-footer d-flex justify-content-center form-group">
+                <button class="btn btn-outline-danger" type="submit">Submit drink</button>
+                <a class="btn btn-outline-secondary" href="{% url 'index'  %}">Cancel</a>
+              </div>  
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% endblock content %}
+</div>

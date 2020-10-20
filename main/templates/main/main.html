@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wise Drinker</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<link rel="stylesheet" href="{% static 'main.css' %}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js" integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD" crossorigin="anonymous"></script>
+	<style>
+		.app{
+			background-color: var(--clr-primary-8);
+			height: 100%;
+			box-shadow: 6px 2px 30px 0px rgba(0, 0, 0, 0.80); 
+			border-radius: 2px;
+			display: inline-block;
+
+		}
+		body {
+			margin: 0;
+			font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #858796;
+			text-align: left;
+			background-color: #fff;
+			font-family: var(--ff-secondary);
+			background: var(--clr-grey-10);
+			color: var(--clr-grey-1);
+		}
+		.reset-button{
+			color:var(--grey);
+			text-decoration: none;
+
+		}
+		.card{
+			background-color: var(--clr-primary-10);
+		}
+		.box {
+			padding: 0 5px 0 5px;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<div id="app" class="container app">
+			{% block content %}
+			{% endblock content %}
+		</div>
+	</main>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js" integrity="sha384-5h4UG+6GOuV9qXh6HqOLwZMY4mnLPraeTrjT5v07o347pj6IkfuoASuGBhfDsp3d" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="{% static 'app.js' %}"></script>
+</body>
+</html>
