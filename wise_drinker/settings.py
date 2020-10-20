@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import django_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "secret"
@@ -104,3 +105,5 @@ CKEDITOR_CONFIGS = {
         'width': '100%'
     }
 }
+
+django_heroku.settings(locals())
