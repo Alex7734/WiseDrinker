@@ -59,7 +59,7 @@ def index(request):
 	context['drinks'] = drinks
 
 	# get status for Vue
-	status = get_status(request.session['drunk_level'])
+	status = get_status(request.session['drunk_level'], request.session['size'])
 	context['status'] = SeverityLevel.objects.get(severity=status)
 
 	return render(request, 'main/index.html', context)
@@ -98,12 +98,13 @@ def add_drink(request, pk):
 
 	# Call the main function and store it for Vue
 	request.session['drunk_level'] += get_blood_alcohol_content(age, weight, height, sex_identification, size, p)
-	request.session['status'] = get_status(request.session['drunk_level'])
+	request.session['status'] = get_status(request.session['drunk_level'], request.session['size'])
 	
 	return redirect('index')
 
 # Clear bac value
 def clear_bac(request):
+	request.session['size'] = 0
 	request.session['drunk_level'] = -get_degradation(request.session['age'], request.session['weight'], request.session['height'], request.session['sex'], request.session['time']*50)
 	if request.session['ate'] == True:
 		request.session['drunk_level'] -= 0.1
@@ -134,9 +135,11 @@ def drink_info(request, pk):
 
 
 # Function to get status from bac
-def get_status(bac):
+def get_status(bac, size):
 	if bac <= 0.4:
-		return 1
+		if size > 0:
+			return 1
+		return 6
 	elif bac <= 0.8:
 		return 2
 	elif bac <= 1.8:
@@ -155,4 +158,3 @@ def get_p(severity):
 	else:
 		p = 38
 	return p
-
